@@ -7,4 +7,10 @@ export const registerInputSchema = z.object({
   role: z.enum(["TENANT","LANDLORD"]).optional(),
 });
 
-export type IUserPayload = z.infer<typeof registerInputSchema>;
+export const loginInputSchema = z.object({
+  email:z.email("Invalid email format"),
+  password:z.string().min(1,"Password field are empty"),
+})
+
+export type TUserRegisterPayload = z.infer<typeof registerInputSchema>;
+export type TUserLoginPayload = z.infer<typeof loginInputSchema>
