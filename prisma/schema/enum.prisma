@@ -1,0 +1,16 @@
+enum UserRole {
+  TENANT
+  LANDLORD
+  ADMIN
+}
+
+enum propertyStatus {
+  AVAILABLE
+  RENTED
+}
+
+enum RentalRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
