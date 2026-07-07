@@ -8,6 +8,8 @@ import { rentalRoutes } from './modules/rental/rental.routes';
 
 const app :Application = express();
 
+app.use(express.json());
+
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
 });
@@ -19,9 +21,9 @@ app.use('/api/categories',categoryRoutes)
 app.use('/api/landlord',landlordRoutes)
 app.use('/api/rentals',rentalRoutes)
 
-app.use('/api/payments')
-app.use('/api/reviews')
+// app.use('/api/payments')
+// app.use('/api/reviews')
 
-app.use('/api/admin')
+// app.use('/api/admin')
 
 export default app;
