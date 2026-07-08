@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import { prisma } from "../../lib/prisma";
 import { config } from "../../config";
 import { jwtUtils } from "../../utils/jwt";
-import { TLoginPayload, TRegisterPayload } from "./auth.validation";
+import { TLoginPayload, TRegisterPayload, TUpdatePayload } from "./auth.validation";
 
 const registerUser = async (payload: TRegisterPayload) => {
   const { email, password } = payload;
@@ -93,9 +93,28 @@ const myProfile = async(userId:string)=>{
   return user;
 }
 
+
+const updateProfile = async(userId:string,payload:TUpdatePayload)=>{
+
+    const result = await prisma.user.update({
+      where:{
+        id:userId
+      },
+      data:{
+        ...payload
+      },
+      omit:{
+        password:true
+      }
+    })
+
+    return result;
+}
+
 export const authService = {
   registerUser,
   loginUser,
-  myProfile
+  myProfile,
+  updateProfile,
   
 };

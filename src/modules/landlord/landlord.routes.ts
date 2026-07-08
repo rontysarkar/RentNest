@@ -3,7 +3,7 @@ import { landlordController } from "./landlord.controller";
 import { validate } from "../../middleware/validate";
 import { auth } from "../../middleware/auth";
 import { UserRole } from "../../../generated/prisma/enums";
-import { createPropertySchema, updatePropertySchema } from "./landlord.validation";
+import { createPropertySchema, requestStatusSchema, updatePropertySchema } from "./landlord.validation";
 
 
 
@@ -18,6 +18,10 @@ router.get('/properties/:id',landlordController.getProperty);
 router.post('/properties',validate(createPropertySchema),auth(UserRole.LANDLORD),landlordController.createProperty);
 router.put('/properties/:id',validate(updatePropertySchema),auth(UserRole.LANDLORD),landlordController.updateProperty);
 router.delete('/properties/:id',auth(UserRole.LANDLORD),landlordController.deleteProperty);
+
+router.get('/requests',auth(UserRole.LANDLORD),landlordController.getRequestsByLandlordId);
+router.patch('/requests/:id',validate(requestStatusSchema),auth(UserRole.LANDLORD),landlordController.approveOrRejectRequest);
+
 
 
 

@@ -8,7 +8,7 @@ import status from "http-status";
 const createRentalRequest = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const tenantId = req.user?.id;
-    const propertyId = req.params?.id;
+    const propertyId = req.body?.propertyId
 
     const result = await rentalRequestService.createRentalRequest(
       tenantId as string,

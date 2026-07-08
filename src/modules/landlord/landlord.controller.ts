@@ -3,6 +3,8 @@ import { catchAsync } from "../../utils/catch-async";
 import { landlordService } from "./landlord.service";
 import { sendResponse } from "../../utils/send-response";
 import status from "http-status";
+import z from "zod";
+import { RentalRequestStatus } from "../../../generated/prisma/enums";
 
 
 const createProperty = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
@@ -72,6 +74,34 @@ const getAllProperty = catchAsync(async(req:Request,res:Response,next:NextFuncti
     })
 })
 
+const getRequestsByLandlordId = catchAsync(async(req:Request,res:Response,NextFunction)=>{
+    const result = await landlordService.getRequestsByLandlordId(req.user?.id as string);
+    sendResponse(res,{
+        success:true,
+        status_code:status.OK,
+        message:"All Requests retrieve successfully",
+        data:result
+    })
+})
+
+
+const approveOrRejectRequest = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
+
+    const requestId = req.params?.id;
+    const landlordId = req.user?.id;
+    const requestStatus = req.body.status;
+    
+
+    const result = await landlordService.approveOrRejectRequest(landlordId as string,requestId as string,requestStatus)
+
+    sendResponse(res,{
+        success:true,
+        status_code:status.OK,
+        message:"Status Updated successfully",
+        data:result
+    })
+})
+
 
 export const landlordController = {
     createProperty,
@@ -79,4 +109,6 @@ export const landlordController = {
     deleteProperty,
     getProperty,
     getAllProperty,
+    getRequestsByLandlordId,
+    approveOrRejectRequest,
 }

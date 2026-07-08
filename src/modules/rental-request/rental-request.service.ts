@@ -28,6 +28,7 @@ const createRentalRequest = async(tenantId:string,propertyId:string)=>{
 }
 
 const getMyRentalRequests = async(tenantId:string)=>{
+    console.log("tenantId",tenantId)
 
     const result = await prisma.rentalRequest.findMany({
         where:{
@@ -36,7 +37,7 @@ const getMyRentalRequests = async(tenantId:string)=>{
     })
 
     if(!result){
-        throw new Error("Not Renal Request Found")
+        throw new Error("Not Rental Request Found")
     }
 
     return result;
