@@ -5,7 +5,9 @@ model User {
   password String
   status   UserStatus @default(ACTIVE)
   role     UserRole   @default(TENANT)
-
+  profilePhoto String?
+  bio          String?
+  
   properties     Property[]
   rentalRequests RentalRequest[]
   reviews        Review[]

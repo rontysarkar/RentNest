@@ -30,7 +30,7 @@ export const auth = (...requiredRole: UserRole[]) => {
     const { email, role, id, name } = payload as JwtPayload;
 
     if (requiredRole.length && !requiredRole.includes(role)) {
-      throw new Error("Your are not authorized to access this resource");
+      throw new Error("You are not authorized to access this route");
     }
 
     const user = await prisma.user.findUnique({

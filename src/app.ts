@@ -3,7 +3,7 @@ import { authRoutes } from './modules/auth/auth.routes';
 import { propertyRoutes } from './modules/property/property.routes';
 import { categoryRoutes } from './modules/category/category.routes';
 import { landlordRoutes } from './modules/landlord/landlord.routes';
-import { rentalRoutes } from './modules/rental/rental.routes';
+import { rentalRoutes } from './modules/rental-request/rental-request.routes';
 import cookieParser from 'cookie-parser';
 
 

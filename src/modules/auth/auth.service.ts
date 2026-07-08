@@ -22,6 +22,7 @@ const registerUser = async (payload: TRegisterPayload) => {
     data: {
       ...payload,
       password: hashPassword,
+      
     },
     omit: {
       password: true,
@@ -33,6 +34,7 @@ const registerUser = async (payload: TRegisterPayload) => {
 
 const loginUser = async (payload: TLoginPayload) => {
   const { email, password } = payload;
+
   const user = await prisma.user.findUnique({
     where: {
       email,
@@ -40,7 +42,7 @@ const loginUser = async (payload: TLoginPayload) => {
   });
 
   if (!user) {
-    throw new Error("Incorrect email or password");
+    throw new Error("User Not Found");
   }
 
   const isPasswordMatch = await bcrypt.compare(password, user.password);
@@ -73,7 +75,27 @@ const loginUser = async (payload: TLoginPayload) => {
   };
 };
 
+
+const myProfile = async(userId:string)=>{
+  const user = await prisma.user.findUnique({
+    where:{
+      id:userId
+    },
+    omit:{
+      password:true
+    }
+  })
+
+  if(!user || user.status === 'BANNED'){
+    throw new Error("User Not Found")
+  }
+
+  return user;
+}
+
 export const authService = {
   registerUser,
   loginUser,
+  myProfile
+  
 };
