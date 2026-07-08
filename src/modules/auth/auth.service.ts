@@ -1,11 +1,10 @@
 import bcrypt from "bcryptjs";
 import { prisma } from "../../lib/prisma";
-import { TUserLoginPayload, TUserRegisterPayload } from "./auth.validation";
 import { config } from "../../config";
-import jwt, { SignOptions } from "jsonwebtoken";
 import { jwtUtils } from "../../utils/jwt";
+import { TLoginPayload, TRegisterPayload } from "./auth.validation";
 
-const registerUser = async (payload: TUserRegisterPayload) => {
+const registerUser = async (payload: TRegisterPayload) => {
   const { email, password } = payload;
   const isExistsUser = await prisma.user.findUnique({
     where: {
@@ -32,7 +31,7 @@ const registerUser = async (payload: TUserRegisterPayload) => {
   return user;
 };
 
-const loginUser = async (payload: TUserLoginPayload) => {
+const loginUser = async (payload: TLoginPayload) => {
   const { email, password } = payload;
   const user = await prisma.user.findUnique({
     where: {

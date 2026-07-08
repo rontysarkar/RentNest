@@ -4,11 +4,13 @@ import { propertyRoutes } from './modules/property/property.routes';
 import { categoryRoutes } from './modules/category/category.routes';
 import { landlordRoutes } from './modules/landlord/landlord.routes';
 import { rentalRoutes } from './modules/rental/rental.routes';
+import cookieParser from 'cookie-parser';
 
 
 const app :Application = express();
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');

@@ -4,7 +4,7 @@ model Property {
   price       Int
   location    String
   status      propertyStatus @default(AVAILABLE)
-  amenities   String
+  amenities   String?
   description String
 
   landlordId String

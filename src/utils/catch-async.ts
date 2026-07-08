@@ -9,9 +9,9 @@ export const catchAsync = (fn: RequestHandler) => {
     } catch (error: any) {
       sendResponse(res, {
         success: false,
-        status_code: status.BAD_REQUEST,
+        status_code: status.INTERNAL_SERVER_ERROR,
         message: error.message,
-        data: error,
+        error: error,
       });
     }
   };

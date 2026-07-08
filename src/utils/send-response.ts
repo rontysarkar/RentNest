@@ -4,7 +4,7 @@ type TResponseData<T> = {
   success: boolean;
   status_code: number;
   message: string;
-  data: T;
+  data?: T;
   error?: any;
 };
 
