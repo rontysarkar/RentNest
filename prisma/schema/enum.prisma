@@ -19,3 +19,9 @@ enum RentalRequestStatus {
   APPROVED
   REJECTED
 }
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}

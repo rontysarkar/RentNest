@@ -9,7 +9,11 @@ import { paymentRoutes } from "./modules/payments/payments.routes";
 
 const app: Application = express();
 
+app.use('/api/payments/webhook',express.raw({type: 'application/json'}))
+
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.get("/", (req: Request, res: Response) => {
@@ -23,7 +27,7 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/landlord", landlordRoutes);
 app.use("/api/rentals", rentalRoutes);
 app.use("/api/payments",paymentRoutes)
-// app.use('/api/payments')
+
 // app.use('/api/reviews')
 
 // app.use('/api/admin')

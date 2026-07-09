@@ -28,7 +28,7 @@ const createRentalRequest = async(tenantId:string,propertyId:string)=>{
 }
 
 const getMyRentalRequests = async(tenantId:string)=>{
-    console.log("tenantId",tenantId)
+   
 
     const result = await prisma.rentalRequest.findMany({
         where:{
@@ -47,6 +47,9 @@ const getSingleRentalRequest = async(id:string)=>{
     const result = await prisma.rentalRequest.findUnique({
         where:{
             id,
+        },
+        include:{
+            property:true
         }
     })
 
