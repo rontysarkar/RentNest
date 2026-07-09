@@ -9,9 +9,8 @@ import { createPropertySchema, requestStatusSchema, updatePropertySchema } from 
 
 const router  = Router();
 
-// public
-router.get('/properties',landlordController.getAllProperty);
-router.get('/properties/:id',landlordController.getProperty);
+
+
 
 // only for landlord
 
@@ -21,6 +20,9 @@ router.delete('/properties/:id',auth(UserRole.LANDLORD),landlordController.delet
 
 router.get('/requests',auth(UserRole.LANDLORD),landlordController.getRequestsByLandlordId);
 router.patch('/requests/:id',validate(requestStatusSchema),auth(UserRole.LANDLORD),landlordController.approveOrRejectRequest);
+
+router.get('/properties',auth(UserRole.LANDLORD),landlordController.getAllPropertyByLandlordId);
+router.get('/properties/:id',auth(UserRole.LANDLORD),landlordController.getPropertyByLandlordById);
 
 
 

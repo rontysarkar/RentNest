@@ -49,9 +49,9 @@ const deleteProperty = catchAsync(async(req:Request,res:Response,next:NextFuncti
     })
 })
 
-const getProperty = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
+const getPropertyByLandlordById = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
 
-    const result = await landlordService.getPropertyById(req.params.id as string);
+    const result = await landlordService.getPropertyByLandlordById(req.params.id as string,req.user?.id as string);
 
     sendResponse(res,{
         success:true,
@@ -62,9 +62,9 @@ const getProperty = catchAsync(async(req:Request,res:Response,next:NextFunction)
 })
 
 
-const getAllProperty = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
+const getAllPropertyByLandlordId = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
 
-    const result = await landlordService.getAllProperty();
+    const result = await landlordService.getAllPropertyByLandlord(req.user?.id as string);
 
     sendResponse(res,{
         success:true,
@@ -107,8 +107,8 @@ export const landlordController = {
     createProperty,
     updateProperty,
     deleteProperty,
-    getProperty,
-    getAllProperty,
+    getPropertyByLandlordById,
+    getAllPropertyByLandlordId,
     getRequestsByLandlordId,
     approveOrRejectRequest,
 }

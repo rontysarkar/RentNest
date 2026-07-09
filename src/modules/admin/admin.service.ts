@@ -35,6 +35,12 @@ const updateUserStatus = async(userId:string,status:UserStatus)=>{
     return result;
 }
 
+
+// const getAllProperty = async()=>{
+    
+//     const result = await prisma.
+// }
+
 export const adminService = {
     getAllUser,
     updateUserStatus,

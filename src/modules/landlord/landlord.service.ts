@@ -75,10 +75,11 @@ const deletePropertyById = async (landlordId: string, propertyId: string) => {
   return deletedData;
 };
 
-const getPropertyById = async (propertyId: string) => {
+const getPropertyByLandlordById = async (propertyId: string,landlordId:string) => {
   const result = await prisma.property.findUnique({
     where: {
       id: propertyId,
+      landlordId
     },
     include: {
       category: {
@@ -96,8 +97,11 @@ const getPropertyById = async (propertyId: string) => {
   return result;
 };
 
-const getAllProperty = async () => {
+const getAllPropertyByLandlord = async (landlordId:string) => {
   const result = await prisma.property.findMany({
+    where:{
+      landlordId
+    },
     include: {
       category: {
         select: {
@@ -167,8 +171,8 @@ export const landlordService = {
   createProperty,
   updateProperty,
   deletePropertyById,
-  getPropertyById,
-  getAllProperty,
+  getPropertyByLandlordById,
+  getAllPropertyByLandlord,
   getRequestsByLandlordId,
   approveOrRejectRequest,
 };
