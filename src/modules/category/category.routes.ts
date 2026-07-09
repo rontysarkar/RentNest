@@ -10,7 +10,6 @@ const router = Router();
 
 router.post('/',auth(UserRole.ADMIN),validate(createCategorySchema),categoryController.createCategory);
 
-// public
 router.get('/',categoryController.getAllCategory);
 
 

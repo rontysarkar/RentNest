@@ -22,9 +22,11 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
 
-app.use("/api/auth", authRoutes);
 app.use("/api/properties", propertyRoutes);
 app.use("/api/categories", categoryRoutes);
+
+
+app.use("/api/auth", authRoutes);
 
 app.use("/api/landlord", landlordRoutes);
 app.use("/api/rentals", rentalRoutes);

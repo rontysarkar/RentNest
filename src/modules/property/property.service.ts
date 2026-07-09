@@ -1,8 +1,13 @@
 import { prisma } from "../../lib/prisma";
+import { IPropertyQuery } from "./property.validation";
 
 
-const getAllProperty = async () => {
+const getAllProperty = async (query:IPropertyQuery) => {
+
+  console.log(query)
+
   const result = await prisma.property.findMany({
+  
     include: {
       category: {
         select: {
@@ -36,3 +41,11 @@ const getPropertyById = async (propertyId: string) => {
 
   return result;
 };
+
+
+
+
+export const propertyService = {
+  getAllProperty,
+  getPropertyById,
+}
