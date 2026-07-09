@@ -55,7 +55,7 @@ const getSingleRentalRequest = async(id:string,tenantId:string)=>{
     })
 
     if(!result){
-        throw new Error("Rental Request not found");
+        throw new Error("Your only access your own rental request");
     }
 
     return result;
