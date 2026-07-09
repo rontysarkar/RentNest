@@ -14,7 +14,6 @@ const getAllProperty = async (query: IPropertyQuery) => {
     sortOrder,
   } = query;
 
-  console.log(sortBy,sortOrder);
 
   const andCondition: PropertyWhereInput[] = [];
 
@@ -60,6 +59,10 @@ const getAllProperty = async (query: IPropertyQuery) => {
       title
     })
   }
+
+  andCondition.push({
+    status:'AVAILABLE'
+  })
 
   const result = await prisma.property.findMany({
     where: {

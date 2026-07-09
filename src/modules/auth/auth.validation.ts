@@ -18,8 +18,8 @@ export const loginUserSchema = z.object({
 
 export const updateProfileSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").optional(),
-  email: z.email("Invalid email format").optional(),
-  role: z.enum(["TENANT","LANDLORD"],{ error: "Role must be either LANDLORD or TENANT" }).optional(),
+  // email: z.email("Invalid email format").optional(),
+  // role: z.enum(["TENANT","LANDLORD"],{ error: "Role must be either LANDLORD or TENANT" }).optional(),
   bio:z.string().min(1,"Bio cannot be empty").optional(),
   profilePhoto:z.string().optional()
 });
