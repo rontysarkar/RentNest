@@ -18,7 +18,7 @@ const createReview = async(tenantId:string,payload:TCreateReviewPayload)=>{
     })
 
     if(!isCompleteRental){
-        throw new Error("Your Completed Rental Not Found");
+        throw new Error("You can only review properties that you have successfully rented.");
     }
 
     const isReviewExist = await prisma.review.findFirst({
