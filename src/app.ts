@@ -6,6 +6,7 @@ import { landlordRoutes } from "./modules/landlord/landlord.routes";
 import { rentalRoutes } from "./modules/rental-request/rental-request.routes";
 import cookieParser from "cookie-parser";
 import { paymentRoutes } from "./modules/payments/payments.routes";
+import { reviewRoutes } from "./modules/review/review.routes";
 
 const app: Application = express();
 
@@ -26,7 +27,8 @@ app.use("/api/categories", categoryRoutes);
 
 app.use("/api/landlord", landlordRoutes);
 app.use("/api/rentals", rentalRoutes);
-app.use("/api/payments",paymentRoutes)
+app.use("/api/payments",paymentRoutes);
+app.use('/api/reviews',reviewRoutes);
 
 // app.use('/api/reviews')
 
