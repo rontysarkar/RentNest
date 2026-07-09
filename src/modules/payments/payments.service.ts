@@ -137,7 +137,7 @@ const handleStripeWebhook = async (rawBody: Buffer, signature: string) => {
 };
 
 
-const getPaymentHistory = async(tenantId:string)=>{
+const getAllPaymentHistory = async(tenantId:string)=>{
     const result = await prisma.payment.findMany({
         where:{
             rentalRequest:{
@@ -149,8 +149,29 @@ const getPaymentHistory = async(tenantId:string)=>{
     return result;
 }
 
+const getPaymentDetails = async(paymentId:string)=>{
+
+    const result = await prisma.payment.findUnique({
+        where:{id:paymentId},
+        include:{
+            rentalRequest:{
+                include:{
+                    property:true
+                }
+            }
+        }
+    })
+
+    if(!result){
+        throw new Error("Payment Not Found")
+    }
+
+    return result;
+}
+
 export const paymentService = {
   createPayment,
   handleStripeWebhook,
-  getPaymentHistory,
+  getAllPaymentHistory,
+  getPaymentDetails
 };

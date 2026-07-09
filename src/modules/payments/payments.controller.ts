@@ -31,7 +31,7 @@ const handleWebhook = catchAsync(async(req:Request,res:Response,next:NextFunctio
 const getPaymentHistory = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
     const tenantId = req.user?.id;
 
-    const result = await paymentService.getPaymentHistory(tenantId as string);
+    const result = await paymentService.getAllPaymentHistory(tenantId as string);
 
     sendResponse(res,{
         success:true,
@@ -42,8 +42,23 @@ const getPaymentHistory = catchAsync(async(req:Request,res:Response,next:NextFun
 })
 
 
+const getPaymentDetails = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
+    const paymentId = req.params?.id;
+
+    const result = await paymentService.getPaymentDetails(paymentId as string);
+
+    sendResponse(res,{
+        success:true,
+        status_code:status.OK,
+        message:"Payment Details get successfully",
+        data:result
+    })
+})
+
+
 export const paymentController = {
     createPayment,
     handleWebhook,
     getPaymentHistory,
+    getPaymentDetails,
 }
