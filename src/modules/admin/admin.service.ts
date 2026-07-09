@@ -36,12 +36,53 @@ const updateUserStatus = async(userId:string,status:UserStatus)=>{
 }
 
 
-// const getAllProperty = async()=>{
+const getAllProperty = async()=>{
     
-//     const result = await prisma.
-// }
+    const result = await prisma.property.findMany({
+        include:{
+            category:{
+                select:{
+                    id:true,
+                    name:true
+                }
+            }
+        }
+    })
+
+    return result;
+}
+
+
+const getPropertyById = async(id:string)=>{
+    
+    const result = await prisma.property.findUnique({
+        where:{
+            id
+        },
+        include:{
+            landlord:{
+                select:{
+                    name:true,
+                    email:true,
+                    profilePhoto:true,
+                    bio:true
+                }
+            },
+            category:{
+                select:{
+                    id:true,
+                    name:true
+                }
+            }
+        }
+    })
+
+    return result;
+}
 
 export const adminService = {
     getAllUser,
     updateUserStatus,
+    getAllProperty,
+    getPropertyById
 }
