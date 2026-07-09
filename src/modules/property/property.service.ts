@@ -12,6 +12,7 @@ const getAllProperty = async (query: IPropertyQuery) => {
     maxPrice,
     sortBy,
     sortOrder,
+    status,
   } = query;
 
 
@@ -60,9 +61,11 @@ const getAllProperty = async (query: IPropertyQuery) => {
     })
   }
 
-  andCondition.push({
-    status:'AVAILABLE'
-  })
+  if(status){
+    andCondition.push({
+      status
+    })
+  }
 
   const result = await prisma.property.findMany({
     where: {
@@ -72,6 +75,12 @@ const getAllProperty = async (query: IPropertyQuery) => {
       [sortBy as string] : sortOrder
     },
     include: {
+      reviews:{
+        select:{
+          rating:true,
+          comment:true
+        }
+      },
       category: {
         select: {
           name: true,
@@ -95,6 +104,12 @@ const getPropertyById = async (propertyId: string) => {
           email:true,
           profilePhoto:true,
           bio:true
+        }
+      },
+      reviews:{
+        select:{
+          rating:true,
+          comment:true,
         }
       },
       category: {

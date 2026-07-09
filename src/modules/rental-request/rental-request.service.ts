@@ -43,10 +43,11 @@ const getMyRentalRequests = async(tenantId:string)=>{
     return result;
 }
 
-const getSingleRentalRequest = async(id:string)=>{
+const getSingleRentalRequest = async(id:string,tenantId:string)=>{
     const result = await prisma.rentalRequest.findUnique({
         where:{
             id,
+            tenantId
         },
         include:{
             property:true
