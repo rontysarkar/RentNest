@@ -19,6 +19,7 @@ const getAllProperty = catchAsync(
     }
 
     const result = await propertyService.getAllProperty(validateQuery.data);
+    
     sendResponse(res, {
       success: true,
       status_code: status.OK,

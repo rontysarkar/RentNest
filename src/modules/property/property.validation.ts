@@ -16,4 +16,6 @@ export interface IPropertyQuery extends PropertyWhereInput {
   searchTerm?: string;
   sortOrder?: string;
   sortBy?: string;
+  minPrice?:string;
+  maxPrice?:string;
 }
