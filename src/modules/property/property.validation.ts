@@ -7,6 +7,7 @@ export const querySchema = z.object({
   location: z.string().min(1, "Location cannot be empty").optional(),
   amenities: z.string().min(1, "amenities cannot be empty").optional(),
   searchTerm: z.string().min(1, "SearchTerm cannot be empty").optional(),
+  category: z.string().min(1, "Category cannot be empty").optional(),
   sortBy: z.string().default("createdAt").optional(),
   sortOrder: z.enum(["asc", "desc"]).optional().default("desc").optional(),
   minPrice:z.string().optional(),

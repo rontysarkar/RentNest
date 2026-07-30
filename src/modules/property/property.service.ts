@@ -13,6 +13,7 @@ const getAllProperty = async (query: IPropertyQuery) => {
     sortBy,
     sortOrder,
     status,
+    category,
   } = query;
 
 
@@ -123,7 +124,6 @@ const getPropertyById = async (propertyId: string) => {
   if (!result) {
     throw new Error("Property Not Found");
   }
-
   return result;
 };
 

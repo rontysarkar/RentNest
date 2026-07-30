@@ -5,6 +5,7 @@ model Property {
   location    String
   status      propertyStatus @default(AVAILABLE)
   amenities   String?
+  photo       String?
   description String
 
   landlordId String
