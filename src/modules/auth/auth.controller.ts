@@ -67,12 +67,35 @@ const updateProfile = catchAsync(async(req:Request,res:Response,next:NextFunctio
 })
 
 
+const createAccessToken = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
+
+    const token = req.cookies?.refreshToken;
+    const {accessToken} = await authService.createAccessToken(token);
+
+    res.cookie('accessToken',accessToken,{
+       httpOnly:true,
+       secure:false,
+       sameSite:'none',
+       maxAge:1000*60*60*24*7
+    })
+
+    sendResponse(res,{
+      success:true,
+      status_code:status.OK,
+      message:"Login Successfully",
+      data:{accessToken}
+    })
+    
+})
+
+
 
 
 export const authController = {
   registerUser,
   loginUser,
   myProfile,
-  updateProfile
+  updateProfile,
+  createAccessToken
   
 };

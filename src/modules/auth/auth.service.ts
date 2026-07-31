@@ -2,7 +2,12 @@ import bcrypt from "bcryptjs";
 import { prisma } from "../../lib/prisma";
 import { config } from "../../config";
 import { jwtUtils } from "../../utils/jwt";
-import { TLoginPayload, TRegisterPayload, TUpdatePayload } from "./auth.validation";
+import {
+  TLoginPayload,
+  TRegisterPayload,
+  TUpdatePayload,
+} from "./auth.validation";
+import { JwtPayload } from "jsonwebtoken";
 
 const registerUser = async (payload: TRegisterPayload) => {
   const { email, password } = payload;
@@ -22,7 +27,6 @@ const registerUser = async (payload: TRegisterPayload) => {
     data: {
       ...payload,
       password: hashPassword,
-      
     },
     omit: {
       password: true,
@@ -75,46 +79,79 @@ const loginUser = async (payload: TLoginPayload) => {
   };
 };
 
-
-const myProfile = async(userId:string)=>{
+const myProfile = async (userId: string) => {
   const user = await prisma.user.findUnique({
-    where:{
-      id:userId
+    where: {
+      id: userId,
     },
-    omit:{
-      password:true
-    }
-  })
+    omit: {
+      password: true,
+    },
+  });
 
-  if(!user || user.status === 'BANNED'){
-    throw new Error("User Not Found")
+  if (!user || user.status === "BANNED") {
+    throw new Error("User Not Found");
   }
 
   return user;
-}
+};
 
+const updateProfile = async (userId: string, payload: TUpdatePayload) => {
+  const result = await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      ...payload,
+    },
+    omit: {
+      password: true,
+    },
+  });
 
-const updateProfile = async(userId:string,payload:TUpdatePayload)=>{
+  return result;
+};
 
-    const result = await prisma.user.update({
-      where:{
-        id:userId
-      },
-      data:{
-        ...payload
-      },
-      omit:{
-        password:true
-      }
-    })
+const createAccessToken = async (token: string) => {
+  const verifyToken = jwtUtils.verifyToken(
+    token as string,
+    config.jwt_refresh_token_secret,
+  );
+  const { id } = verifyToken as JwtPayload;
 
-    return result;
-}
+  const user = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!user) {
+    throw new Error("User not found with this token");
+  }
+  if (user.status === "BANNED") {
+    throw new Error("Your account has been suspended. Please contact support.");
+  }
+
+  const jwtPayload = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  };
+
+  const accessToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_access_token_secret,
+    config.jwt_access_token_expires_in,
+  );
+
+  return {accessToken}
+};
 
 export const authService = {
   registerUser,
   loginUser,
   myProfile,
   updateProfile,
-  
+  createAccessToken,
 };

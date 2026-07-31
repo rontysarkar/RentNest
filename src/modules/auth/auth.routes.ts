@@ -14,5 +14,6 @@ router.post("/register", validate(registerUserSchema), authController.registerUs
 router.post('/login',validate(loginUserSchema),authController.loginUser);
 router.get('/me',auth(UserRole.ADMIN,UserRole.LANDLORD,UserRole.TENANT),authController.myProfile)
 router.put('/profile',validate(updateProfileSchema),auth(UserRole.ADMIN,UserRole.LANDLORD,UserRole.TENANT),authController.updateProfile)
+router.post('/refresh-token',authController.createAccessToken);
 
 export const authRoutes = router;
