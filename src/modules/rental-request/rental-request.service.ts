@@ -1,69 +1,99 @@
-import { prisma } from "../../lib/prisma"
+import { prisma } from "../../lib/prisma";
 
+const createRentalRequest = async (tenantId: string, propertyId: string) => {
+  const property = await prisma.property.findUnique({
+    where: {
+      id: propertyId,
+    },
+  });
 
+  if (!property) {
+    throw new Error("Property Not Found");
+  }
 
-const createRentalRequest = async(tenantId:string,propertyId:string)=>{
-    const property = await prisma.property.findUnique({
-        where:{
-            id:propertyId
-        }
-    })
+  if (property.status === "RENTED") {
+    throw new Error("This property is already rented and no longer available.");
+  }
 
-    if(!property){
-        throw new Error("Property Not Found")
+  const existingRequest = await prisma.rentalRequest.findFirst({
+    where: {
+      tenantId,
+      propertyId,
+    },
+  });
+
+  if (existingRequest) {
+    throw new Error(
+      "You have already sent a rental request for this property.",
+    );
+  }
+
+  const result = await prisma.rentalRequest.create({
+    data: {
+      tenantId,
+      propertyId,
+    },
+  });
+
+  return result;
+};
+
+const getMyRentalRequests = async (tenantId: string) => {
+  const result = await prisma.rentalRequest.findMany({
+    where: {
+      tenantId,
+    },
+  });
+
+  if (!result) {
+    throw new Error("Not Rental Request Found");
+  }
+
+  return result;
+};
+
+const getSingleRentalRequest = async (id: string, tenantId: string) => {
+  const result = await prisma.rentalRequest.findUnique({
+    where: {
+      id,
+      tenantId,
+    },
+    include: {
+      property: true,
+    },
+  });
+
+  if (!result) {
+    throw new Error("Your only access your own rental request");
+  }
+
+  return result;
+};
+
+const getPropertyRentalRequestStatus = async (propertyId: string, tenantId: string) => {
+  const result = await prisma.rentalRequest.findFirst({
+    where: {
+      tenantId,
+      propertyId,
+    },
+    select:{
+        id:true,
+        status:true
     }
+  });
 
-    if(property.status === 'RENTED'){
-        throw new Error("This property is already rented and no longer available.")
-    }
+  if (!result) {
+    throw new Error("Request Not Found");
+  }
+  return result;
+};
 
-    const result = await prisma.rentalRequest.create({
-        data:{
-            tenantId,
-            propertyId,
-        }
-    })
 
-    return result;
-}
-
-const getMyRentalRequests = async(tenantId:string)=>{
-   
-
-    const result = await prisma.rentalRequest.findMany({
-        where:{
-            tenantId
-        }
-    })
-
-    if(!result){
-        throw new Error("Not Rental Request Found")
-    }
-
-    return result;
-}
-
-const getSingleRentalRequest = async(id:string,tenantId:string)=>{
-    const result = await prisma.rentalRequest.findUnique({
-        where:{
-            id,
-            tenantId
-        },
-        include:{
-            property:true
-        }
-    })
-
-    if(!result){
-        throw new Error("Your only access your own rental request");
-    }
-
-    return result;
-}
 
 
 export const rentalRequestService = {
-    createRentalRequest,
-    getMyRentalRequests,
-    getSingleRentalRequest,
-}
+  createRentalRequest,
+  getMyRentalRequests,
+  getSingleRentalRequest,
+  getPropertyRentalRequestStatus,
+};

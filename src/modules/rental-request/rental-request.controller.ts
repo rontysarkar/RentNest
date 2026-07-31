@@ -48,8 +48,21 @@ const getSingleRentalRequest = catchAsync(async(req:Request,res:Response,next:Ne
     });
 })
 
+const getPropertyRentalRequestStatus = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
+
+    const result = await rentalRequestService.getPropertyRentalRequestStatus(req.params?.propertyId as string,req.user?.id as string);
+    
+    sendResponse(res, {
+      success: true,
+      status_code: status.OK,
+      message: "Rental request status retrieve successfully.",
+      data: result,
+    });
+})
+
 export const rentalRequestController = {
     createRentalRequest,
     getMyRentalRequests,
     getSingleRentalRequest,
+    getPropertyRentalRequestStatus,
 }
