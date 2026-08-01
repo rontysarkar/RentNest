@@ -92,7 +92,6 @@ const getPropertyRentalRequestStatus = async (
 };
 
 const getTenantDashboardStats = async (tenantId: string) => {
-  console.log('---------------------')
   const totalRequests = await prisma.rentalRequest.count({
     where: {
       tenantId,
