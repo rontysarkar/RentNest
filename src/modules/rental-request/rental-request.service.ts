@@ -48,6 +48,7 @@ const getMyRentalRequests = async (tenantId: string) => {
         select: {
           title: true,
           price: true,
+          status:true,
           landlord: {
             select: {
               name: true,
