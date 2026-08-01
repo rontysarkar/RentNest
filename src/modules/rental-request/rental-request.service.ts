@@ -43,6 +43,20 @@ const getMyRentalRequests = async (tenantId: string) => {
     where: {
       tenantId,
     },
+    include: {
+      property: {
+        select: {
+          title: true,
+          price: true,
+          landlord: {
+            select: {
+              name: true,
+              email: true,
+            },
+          },
+        },
+      },
+    },
   });
 
   if (!result) {
@@ -131,7 +145,7 @@ const getTenantDashboardStats = async (tenantId: string) => {
     activeRentals,
     pendingRequests,
     totalPayments,
-  }
+  };
 };
 
 export const rentalRequestService = {
