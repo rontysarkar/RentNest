@@ -70,16 +70,19 @@ const getSingleRentalRequest = async (id: string, tenantId: string) => {
   return result;
 };
 
-const getPropertyRentalRequestStatus = async (propertyId: string, tenantId: string) => {
+const getPropertyRentalRequestStatus = async (
+  propertyId: string,
+  tenantId: string,
+) => {
   const result = await prisma.rentalRequest.findFirst({
     where: {
       tenantId,
       propertyId,
     },
-    select:{
-        id:true,
-        status:true
-    }
+    select: {
+      id: true,
+      status: true,
+    },
   });
 
   if (!result) {
@@ -88,12 +91,54 @@ const getPropertyRentalRequestStatus = async (propertyId: string, tenantId: stri
   return result;
 };
 
+const getTenantDashboardStats = async (tenantId: string) => {
+  console.log('---------------------')
+  const totalRequests = await prisma.rentalRequest.count({
+    where: {
+      tenantId,
+    },
+  });
 
+  const activeRentals = await prisma.rentalRequest.count({
+    where: {
+      tenantId,
+      status: "APPROVED",
+    },
+  });
 
+  const pendingRequests = await prisma.rentalRequest.count({
+    where: {
+      tenantId,
+      status: "PENDING",
+    },
+  });
+
+  const paymentsResult = await prisma.payment.aggregate({
+    _sum: {
+      amount: true,
+    },
+    where: {
+      status: "COMPLETED",
+      rentalRequest: {
+        tenantId,
+      },
+    },
+  });
+
+  const totalPayments = paymentsResult._sum.amount || 0;
+
+  return {
+    totalRequests,
+    activeRentals,
+    pendingRequests,
+    totalPayments,
+  }
+};
 
 export const rentalRequestService = {
   createRentalRequest,
   getMyRentalRequests,
   getSingleRentalRequest,
   getPropertyRentalRequestStatus,
+  getTenantDashboardStats,
 };

@@ -4,54 +4,73 @@ import { adminService } from "./admin.service";
 import { sendResponse } from "../../utils/send-response";
 import status from "http-status";
 
-
-const getAllUser = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
-
+const getAllUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
     const result = await adminService.getAllUser();
 
-    sendResponse(res,{
-        success:true,
-        status_code:status.OK,
-        message:"All User retrieve successfully",
-        data:result,
-    })
-})
+    sendResponse(res, {
+      success: true,
+      status_code: status.OK,
+      message: "All User retrieve successfully",
+      data: result,
+    });
+  },
+);
 
-const updateUserStatus = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
+const updateUserStatus = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const result = await adminService.updateUserStatus(
+      req.params?.id as string,
+      req.body.status,
+    );
+    sendResponse(res, {
+      success: true,
+      status_code: status.OK,
+      message: "Update user status successfully",
+      data: result,
+    });
+  },
+);
 
-    const result = await adminService.updateUserStatus(req.params?.id as string,req.body.status);
-    sendResponse(res,{
-        success:true,
-        status_code:status.OK,
-        message:"Update user status successfully",
-        data:result,
-    })
-})
-
-const getAllProperty = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
+const getAllProperty = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
     const result = await adminService.getAllProperty();
-    sendResponse(res,{
-        success:true,
-        status_code:status.OK,
-        message:"Retrieve all property successfully",
-        data:result,
-    })
-})
-const getPropertyById = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
+    sendResponse(res, {
+      success: true,
+      status_code: status.OK,
+      message: "Retrieve all property successfully",
+      data: result,
+    });
+  },
+);
+const getPropertyById = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
     const result = await adminService.getPropertyById(req.params?.id as string);
-    sendResponse(res,{
-        success:true,
-        status_code:status.OK,
-        message:"Retrieve property successfully",
-        data:result,
-    })
-})
+    sendResponse(res, {
+      success: true,
+      status_code: status.OK,
+      message: "Retrieve property successfully",
+      data: result,
+    });
+  },
+);
 
-
+const getAdminDashboardStats = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const result = await adminService.getAdminDashboardStats();
+    sendResponse(res, {
+      success: true,
+      status_code: status.OK,
+      message: "Retrieve Dashboard Stats successfully",
+      data: result,
+    });
+  },
+);
 
 export const adminController = {
-    getAllUser,
-    updateUserStatus,
-    getAllProperty,
-    getPropertyById,
-}
+  getAllUser,
+  updateUserStatus,
+  getAllProperty,
+  getPropertyById,
+  getAdminDashboardStats,
+};

@@ -7,9 +7,31 @@ import { createRentalRequestSchema } from "./rental-request.validation";
 
 const router = Router();
 
-router.post('/',validate(createRentalRequestSchema),auth(UserRole.TENANT),rentalRequestController.createRentalRequest);
-router.get('/',auth(UserRole.TENANT),rentalRequestController.getMyRentalRequests);
-router.get('/:id',auth(UserRole.TENANT),rentalRequestController.getSingleRentalRequest);
-router.get('/status/:propertyId',auth(UserRole.TENANT),rentalRequestController.getPropertyRentalRequestStatus)
+router.post(
+  "/",
+  validate(createRentalRequestSchema),
+  auth(UserRole.TENANT),
+  rentalRequestController.createRentalRequest,
+);
+router.get(
+  "/",
+  auth(UserRole.TENANT),
+  rentalRequestController.getMyRentalRequests,
+);
+router.get(
+  "/:id",
+  auth(UserRole.TENANT),
+  rentalRequestController.getSingleRentalRequest,
+);
+router.get(
+  "/status/:propertyId",
+  auth(UserRole.TENANT),
+  rentalRequestController.getPropertyRentalRequestStatus,
+);
+router.get(
+  "/tenant/dashboard",
+  auth(UserRole.TENANT),
+  rentalRequestController.getTenantDashboardStats,
+);
 
 export const rentalRoutes = router;

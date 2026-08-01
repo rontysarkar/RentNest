@@ -75,11 +75,14 @@ const deletePropertyById = async (landlordId: string, propertyId: string) => {
   return deletedData;
 };
 
-const getPropertyByLandlordById = async (propertyId: string,landlordId:string) => {
+const getPropertyByLandlordById = async (
+  propertyId: string,
+  landlordId: string,
+) => {
   const result = await prisma.property.findUnique({
     where: {
       id: propertyId,
-      landlordId
+      landlordId,
     },
     include: {
       category: {
@@ -97,10 +100,10 @@ const getPropertyByLandlordById = async (propertyId: string,landlordId:string) =
   return result;
 };
 
-const getAllPropertyByLandlord = async (landlordId:string) => {
+const getAllPropertyByLandlord = async (landlordId: string) => {
   const result = await prisma.property.findMany({
-    where:{
-      landlordId
+    where: {
+      landlordId,
     },
     include: {
       category: {
@@ -119,6 +122,20 @@ const getRequestsByLandlordId = async (landlordId: string) => {
     where: {
       property: {
         landlordId,
+      },
+    },
+    include: {
+      property: {
+        select: {
+          title: true,
+          price: true,
+        },
+      },
+      tenant: {
+        select: {
+          name: true,
+          email: true,
+        },
       },
     },
   });
@@ -167,6 +184,44 @@ const approveOrRejectRequest = async (
   return statusUpdate;
 };
 
+const getLandlordDashboardStats = async (landlordId: string) => {
+  const totalProperties = await prisma.property.count({
+    where: {
+      landlordId,
+    },
+  });
+
+  const activeRequests = await prisma.rentalRequest.count({
+    where: {
+      status: "PENDING",
+      property: {
+        landlordId,
+      },
+    },
+  });
+
+  const earningsResult = await prisma.payment.aggregate({
+    _sum: {
+      amount: true,
+    },
+    where: {
+      status: "COMPLETED",
+      rentalRequest: {
+        property: {
+          landlordId,
+        },
+      },
+    },
+  });
+  const totalEarnings = earningsResult._sum.amount || 0;
+
+  return {
+    totalProperties,
+    activeRequests,
+    totalEarnings,
+  };
+};
+
 export const landlordService = {
   createProperty,
   updateProperty,
@@ -175,4 +230,5 @@ export const landlordService = {
   getAllPropertyByLandlord,
   getRequestsByLandlordId,
   approveOrRejectRequest,
+  getLandlordDashboardStats,
 };

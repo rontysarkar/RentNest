@@ -23,7 +23,7 @@ router.patch('/requests/:id',validate(requestStatusSchema),auth(UserRole.LANDLOR
 
 router.get('/properties',auth(UserRole.LANDLORD),landlordController.getAllPropertyByLandlordId);
 router.get('/properties/:id',auth(UserRole.LANDLORD),landlordController.getPropertyByLandlordById);
-
+router.get('/overview',auth(UserRole.LANDLORD),landlordController.getLandlordDashboardStats);
 
 
 

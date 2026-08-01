@@ -6,109 +6,150 @@ import status from "http-status";
 import z from "zod";
 import { RentalRequestStatus } from "../../../generated/prisma/enums";
 
+const createProperty = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const result = await landlordService.createProperty(
+      req.user?.id as string,
+      req.body,
+    );
 
-const createProperty = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
-    const result = await landlordService.createProperty(req.user?.id as string,req.body);
+    sendResponse(res, {
+      success: true,
+      status_code: status.OK,
+      message: "Property Created Successfully",
+      data: result,
+    });
+  },
+);
 
-    sendResponse(res,{
-        success:true,
-        status_code:status.OK,
-        message:"Property Created Successfully",
-        data:result
-    })
-})
-
-
-const updateProperty = catchAsync(async(req:Request,res:Response,nex:NextFunction)=>{
+const updateProperty = catchAsync(
+  async (req: Request, res: Response, nex: NextFunction) => {
     const landlordId = req.user?.id;
     const propertyId = req.params.id;
     const payload = req.body;
 
-    const result = await landlordService.updateProperty(landlordId as string,propertyId as string,payload)
+    const result = await landlordService.updateProperty(
+      landlordId as string,
+      propertyId as string,
+      payload,
+    );
 
-    sendResponse(res,{
-        success:true,
-        status_code:status.OK,
-        message:"Property Updated Successfully",
-        data:result
-    })
-})
+    sendResponse(res, {
+      success: true,
+      status_code: status.OK,
+      message: "Property Updated Successfully",
+      data: result,
+    });
+  },
+);
 
-
-const deleteProperty = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
-
+const deleteProperty = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
     const landlordId = req.user?.id;
     const propertyId = req.params.id;
-    const result = await landlordService.deletePropertyById(landlordId as string,propertyId as string);
+    const result = await landlordService.deletePropertyById(
+      landlordId as string,
+      propertyId as string,
+    );
 
-    sendResponse(res,{
-        success:true,
-        status_code:status.OK,
-        message:"Property Deleted Successfully",
-        data:null
-    })
-})
+    sendResponse(res, {
+      success: true,
+      status_code: status.OK,
+      message: "Property Deleted Successfully",
+      data: null,
+    });
+  },
+);
 
-const getPropertyByLandlordById = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
+const getPropertyByLandlordById = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const result = await landlordService.getPropertyByLandlordById(
+      req.params.id as string,
+      req.user?.id as string,
+    );
 
-    const result = await landlordService.getPropertyByLandlordById(req.params.id as string,req.user?.id as string);
+    sendResponse(res, {
+      success: true,
+      status_code: status.OK,
+      message: "Property retrieve successfully",
+      data: result,
+    });
+  },
+);
 
-    sendResponse(res,{
-        success:true,
-        status_code:status.OK,
-        message:"Property retrieve successfully",
-        data:result
-    })
-})
+const getAllPropertyByLandlordId = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const result = await landlordService.getAllPropertyByLandlord(
+      req.user?.id as string,
+    );
+
+    sendResponse(res, {
+      success: true,
+      status_code: status.OK,
+      message: "All Property retrieve successfully",
+      data: result,
+    });
+  },
+);
+
+const getRequestsByLandlordId = catchAsync(
+  async (req: Request, res: Response, NextFunction) => {
+    const result = await landlordService.getRequestsByLandlordId(
+      req.user?.id as string,
+    );
+    sendResponse(res, {
+      success: true,
+      status_code: status.OK,
+      message: "All Requests retrieve successfully",
+      data: result,
+    });
+  },
+);
 
 
-const getAllPropertyByLandlordId = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
-
-    const result = await landlordService.getAllPropertyByLandlord(req.user?.id as string);
-
-    sendResponse(res,{
-        success:true,
-        status_code:status.OK,
-        message:"All Property retrieve successfully",
-        data:result
-    })
-})
-
-const getRequestsByLandlordId = catchAsync(async(req:Request,res:Response,NextFunction)=>{
-    const result = await landlordService.getRequestsByLandlordId(req.user?.id as string);
-    sendResponse(res,{
-        success:true,
-        status_code:status.OK,
-        message:"All Requests retrieve successfully",
-        data:result
-    })
-})
-
-
-const approveOrRejectRequest = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
-
+const approveOrRejectRequest = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
     const requestId = req.params?.id;
     const landlordId = req.user?.id;
     const requestStatus = req.body.status;
-    
 
-    const result = await landlordService.approveOrRejectRequest(landlordId as string,requestId as string,requestStatus)
+    const result = await landlordService.approveOrRejectRequest(
+      landlordId as string,
+      requestId as string,
+      requestStatus,
+    );
 
-    sendResponse(res,{
-        success:true,
-        status_code:status.OK,
-        message:"Status Updated successfully",
-        data:result
-    })
-})
+    sendResponse(res, {
+      success: true,
+      status_code: status.OK,
+      message: "Status Updated successfully",
+      data: result,
+    });
+  },
+);
 
+
+const getLandlordDashboardStats = catchAsync(
+  async (req: Request, res: Response, NextFunction) => {
+    const result = await landlordService.getLandlordDashboardStats(
+      req.user?.id as string,
+    );
+    sendResponse(res, {
+      success: true,
+      status_code: status.OK,
+      message: "Dashboard Stats retrieve successfully",
+      data: result,
+    });
+  },
+);
 
 export const landlordController = {
-    createProperty,
-    updateProperty,
-    deleteProperty,
-    getPropertyByLandlordById,
-    getAllPropertyByLandlordId,
-    getRequestsByLandlordId,
-    approveOrRejectRequest,
-}
+  createProperty,
+  updateProperty,
+  deleteProperty,
+  getPropertyByLandlordById,
+  getAllPropertyByLandlordId,
+  getRequestsByLandlordId,
+  approveOrRejectRequest,
+  getLandlordDashboardStats,
+};
