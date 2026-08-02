@@ -100,7 +100,10 @@ const handleStripeWebhook = async (rawBody: Buffer, signature: string) => {
         where: { rentalRequestId },
       });
 
-      if (existingPayment && existingPayment.status === PaymentStatus.COMPLETED) {
+      if (
+        existingPayment &&
+        existingPayment.status === PaymentStatus.COMPLETED
+      ) {
         console.log(
           `Payment for request ${rentalRequestId} was already processed.`,
         );
@@ -128,50 +131,67 @@ const handleStripeWebhook = async (rawBody: Buffer, signature: string) => {
             status: propertyStatus.RENTED,
           },
         });
-
       });
     }
   }
 
-  return  { received: true };
+  return { received: true };
 };
 
+const getAllPaymentHistory = async (tenantId: string) => {
+  const result = await prisma.payment.findMany({
+    where: {
+      rentalRequest: {
+        tenantId,
+      },
+    },
+    include: {
+      rentalRequest: {
+        select:{
+          property: {
+            select: {
+              title: true,
+              price: true,
+              location:true,
+              landlord: {
+                select: {
+                  name: true,
+                  email: true,
+                },
+              },
+            },
+          },
+        },
+        
+      },
+    },
+  });
 
-const getAllPaymentHistory = async(tenantId:string)=>{
-    const result = await prisma.payment.findMany({
-        where:{
-            rentalRequest:{
-                tenantId
-            }
-        }
-    })
+  return result;
+};
 
-    return result;
-}
+const getPaymentDetails = async (paymentId: string) => {
+  const result = await prisma.payment.findUnique({
+    where: { id: paymentId },
+    include: {
+      rentalRequest: {
+        include: {
+          property: true,
+        },
+      },
+    },
+  });
 
-const getPaymentDetails = async(paymentId:string)=>{
+  if (!result) {
+    throw new Error("Payment Not Found");
+  }
 
-    const result = await prisma.payment.findUnique({
-        where:{id:paymentId},
-        include:{
-            rentalRequest:{
-                include:{
-                    property:true
-                }
-            }
-        }
-    })
-
-    if(!result){
-        throw new Error("Payment Not Found")
-    }
-
-    return result;
-}
+  return result;
+};
 
 export const paymentService = {
   createPayment,
   handleStripeWebhook,
   getAllPaymentHistory,
-  getPaymentDetails
+  getPaymentDetails,
 };
