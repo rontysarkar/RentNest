@@ -151,12 +151,12 @@ const getAllPaymentHistory = async (tenantId: string) => {
     },
     include: {
       rentalRequest: {
-        select: {
+        select:{
           property: {
             select: {
               title: true,
               price: true,
-              location: true,
+              location:true,
               landlord: {
                 select: {
                   name: true,
@@ -166,6 +166,7 @@ const getAllPaymentHistory = async (tenantId: string) => {
             },
           },
         },
+        
       },
     },
   });

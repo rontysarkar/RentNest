@@ -7,7 +7,13 @@ import { reviewController } from "./review.controller";
 
 const router = Router();
 
-router.post('/',auth(UserRole.TENANT),validate(createReviewSchema),reviewController.createReview);
-
+router.post(
+  "/",
+  auth(UserRole.TENANT),
+  validate(createReviewSchema),
+  reviewController.createReview,
+);
+router.get("/", reviewController.getReviews);
+router.get("/tenant-reviews", auth(UserRole.TENANT), reviewController.getReviews);
 
 export const reviewRoutes = router;
