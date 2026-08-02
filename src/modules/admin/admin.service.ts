@@ -46,6 +46,37 @@ const getAllProperty = async () => {
   return result;
 };
 
+const getAllRentalRequest = async () => {
+  const result = await prisma.rentalRequest.findMany({
+    include: {
+      property: {
+        select: {
+          title: true,
+          price: true,
+          status: true,
+          landlord: {
+            select: {
+              name: true,
+              email: true,
+            },
+          },
+        },
+      },
+      tenant: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
+
+  if (!result) {
+    throw new Error("Not Rental Request Found");
+  }
+
+  return result;
+};
+
 const getPropertyById = async (id: string) => {
   const result = await prisma.property.findUnique({
     where: {
@@ -91,8 +122,7 @@ const getAdminDashboardStats = async () => {
     totalProperty,
     pendingRequests,
     bannedUsers,
-    
-  }
+  };
 };
 
 export const adminService = {
@@ -101,4 +131,5 @@ export const adminService = {
   getAllProperty,
   getPropertyById,
   getAdminDashboardStats,
+  getAllRentalRequest,
 };

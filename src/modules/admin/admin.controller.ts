@@ -43,6 +43,20 @@ const getAllProperty = catchAsync(
     });
   },
 );
+
+
+const getAllRentalRequest = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const result = await adminService.getAllRentalRequest();
+    sendResponse(res, {
+      success: true,
+      status_code: status.OK,
+      message: "Retrieve all request successfully",
+      data: result,
+    });
+  },
+);
+
 const getPropertyById = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const result = await adminService.getPropertyById(req.params?.id as string);
@@ -73,4 +87,5 @@ export const adminController = {
   getAllProperty,
   getPropertyById,
   getAdminDashboardStats,
+  getAllRentalRequest,
 };
