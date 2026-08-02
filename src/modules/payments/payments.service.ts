@@ -154,6 +154,7 @@ const getAllPaymentHistory = async (tenantId: string) => {
         select:{
           property: {
             select: {
+              id:true,
               title: true,
               price: true,
               location:true,
