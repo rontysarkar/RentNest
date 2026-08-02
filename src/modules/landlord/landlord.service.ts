@@ -129,6 +129,7 @@ const getRequestsByLandlordId = async (landlordId: string) => {
         select: {
           title: true,
           price: true,
+          status:true,
         },
       },
       tenant: {
