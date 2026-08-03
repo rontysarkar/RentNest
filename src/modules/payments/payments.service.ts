@@ -49,8 +49,8 @@ const createPayment = async (rentalRequestId: string, tenantId: string) => {
         quantity: 1,
       },
     ],
-    success_url: `${config.clint_url}/payment/success`,
-    cancel_url: `${config.clint_url}/payment/cancel`,
+    success_url: `${config.clint_url}/tenant-dashboard/payments/success`,
+    cancel_url: `${config.clint_url}/tenant-dashboard/payments/cancel`,
     metadata: {
       rentalRequestId: rentalRequest.id,
     },
