@@ -16,7 +16,6 @@ const getAllProperty = async (query: IPropertyQuery) => {
     category,
   } = query;
 
-
   const andCondition: PropertyWhereInput[] = [];
 
   if (searchTerm) {
@@ -46,41 +45,42 @@ const getAllProperty = async (query: IPropertyQuery) => {
     });
   }
 
-  if(location){
+  if (location) {
     andCondition.push({
-      location
-    })
+      location,
+    });
   }
-  if(amenities){
+  if (amenities) {
     andCondition.push({
-      amenities
-    })
-  }
-  if(title){
-    andCondition.push({
-      title
-    })
+      amenities,
+    });
   }
 
-  if(status){
+  if (title) {
     andCondition.push({
-      status
-    })
+      title,
+    });
+  }
+
+  if (status) {
+    andCondition.push({
+      status,
+    });
   }
 
   const result = await prisma.property.findMany({
     where: {
       AND: andCondition,
     },
-    orderBy:{
-      [sortBy as string] : sortOrder
+    orderBy: {
+      [sortBy as string]: sortOrder,
     },
     include: {
-      reviews:{
-        select:{
-          rating:true,
-          comment:true
-        }
+      reviews: {
+        select: {
+          rating: true,
+          comment: true,
+        },
       },
       category: {
         select: {
@@ -98,20 +98,20 @@ const getPropertyById = async (propertyId: string) => {
       id: propertyId,
     },
     include: {
-      landlord:{
-        select:{
-          id:true,
-          name:true,
-          email:true,
-          profilePhoto:true,
-          bio:true
-        }
+      landlord: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          profilePhoto: true,
+          bio: true,
+        },
       },
-      reviews:{
-        select:{
-          rating:true,
-          comment:true,
-        }
+      reviews: {
+        select: {
+          rating: true,
+          comment: true,
+        },
       },
       category: {
         select: {

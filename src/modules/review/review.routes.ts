@@ -14,6 +14,6 @@ router.post(
   reviewController.createReview,
 );
 router.get("/", reviewController.getReviews);
-router.get("/tenant-reviews", auth(UserRole.TENANT), reviewController.getReviews);
+router.get("/tenant-reviews", auth(UserRole.TENANT), reviewController.getReviewsByTenant);
 
 export const reviewRoutes = router;
