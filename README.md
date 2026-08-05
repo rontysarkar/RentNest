@@ -1,8 +1,8 @@
-# RentNest 🏠
+# BashaRent 🏠
 
 **Find & List Rental Properties with Ease**
 
-RentNest is a backend REST API for a rental property marketplace, where **Landlords** can list properties and manage rental requests, **Tenants** can browse listings, submit rental requests, and make payments, and **Admins** oversee the entire platform.
+BashaRent is a backend REST API for a rental property marketplace, where **Landlords** can list properties and manage rental requests, **Tenants** can browse listings, submit rental requests, and make payments, and **Admins** oversee the entire platform.
 
 **Live API:** https://rent-nest-mocha.vercel.app/
 
