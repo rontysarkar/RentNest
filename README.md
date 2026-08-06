@@ -17,13 +17,12 @@ BashaRent is a backend REST API for a rental property marketplace, where **Landl
 
 ## 🚀 Live Links
 
-| Resource | Link |
-|---|---|
-| 🔗 **Backend Live API** | [rent-nest-mocha.vercel.app](https://rent-nest-mocha.vercel.app/) |
-| 🌐 **Frontend Live Application** | [rent-nest-frontend-nine.vercel.app](https://rent-nest-frontend-nine.vercel.app/) |
-| 💻 **Frontend GitHub Repository** | [BashaRent — Frontend](https://github.com/your-username/BashaRent-Frontend) |
+| Resource                          | Link                                                                              |
+| --------------------------------- | --------------------------------------------------------------------------------- |
+| 🔗 **Backend Live API**           | [basharent-backend-mocha.vercel.app](https://basharent-backend-mocha.vercel.app/)                 |
+| 🌐 **Frontend Live Application**  | [basharent-frontend-nine.vercel.app](https://basharent-frontend-nine.vercel.app/) |
+| 💻 **Frontend GitHub Repository** | [BashaRent-Frontend](https://github.com/rontysarkar/BashaRent-Frontend)       |
 
-> ⚠️ Replace the frontend GitHub link above with your actual repository URL.
 
 ---
 
@@ -35,11 +34,11 @@ BashaRent is a backend REST API for a rental property marketplace, where **Landl
 
 ## 👥 Roles & Permissions
 
-| Role | Key Permissions |
-|---|---|
-| **Tenant** | Browse listings, submit rental requests, make payments, leave reviews, manage own profile |
-| **Landlord** | Create/manage listings, approve/reject requests, view tenant history |
-| **Admin** | Manage all users (ban/unban), oversee all listings & requests, manage categories |
+| Role         | Key Permissions                                                                           |
+| ------------ | ----------------------------------------------------------------------------------------- |
+| **Tenant**   | Browse listings, submit rental requests, make payments, leave reviews, manage own profile |
+| **Landlord** | Create/manage listings, approve/reject requests, view tenant history                      |
+| **Admin**    | Manage all users (ban/unban), oversee all listings & requests, manage categories          |
 
 > Users select their role during registration (tenant or landlord). The admin account is seeded directly.
 
@@ -47,15 +46,15 @@ BashaRent is a backend REST API for a rental property marketplace, where **Landl
 
 ## 📡 Core Endpoints
 
-| Module | Base Route |
-|---|---|
-| Auth | `/api/auth` |
+| Module              | Base Route                           |
+| ------------------- | ------------------------------------ |
+| Auth                | `/api/auth`                          |
 | Properties (public) | `/api/properties`, `/api/categories` |
-| Landlord | `/api/landlord` |
-| Rental Requests | `/api/rentals` |
-| Payments | `/api/payments` |
-| Reviews | `/api/reviews` |
-| Admin | `/api/admin` |
+| Landlord            | `/api/landlord`                      |
+| Rental Requests     | `/api/rentals`                       |
+| Payments            | `/api/payments`                      |
+| Reviews             | `/api/reviews`                       |
+| Admin               | `/api/admin`                         |
 
 ---
 
@@ -79,6 +78,7 @@ RentalRequests ── (rentalRequestId) ──> Payments
 ## 📬 Response Format
 
 **Success Response**
+
 ```json
 {
   "success": true,
@@ -89,6 +89,7 @@ RentalRequests ── (rentalRequestId) ──> Payments
 ```
 
 **Error Response**
+
 ```json
 {
   "success": false,
@@ -111,12 +112,14 @@ Uses **Stripe Checkout** (one-time payments, dynamic `price_data` since each pro
 ## 🔑 Demo Credentials
 
 **Admin**
+
 ```
 Email    : admin@gmail.com
 Password : 123456
 ```
 
 **Landlord**
+
 ```
 Email    : landlord@gmail.com
 Password : 123456
@@ -138,53 +141,3 @@ PORT=5000
 ```
 
 ---
-
-## 📦 Getting Started
-
-```bash
-# Clone the repository
-git clone https://github.com/your-username/BashaRent-Backend.git
-
-# Navigate into the project
-cd BashaRent-Backend
-
-# Install dependencies
-npm install
-
-# Run Prisma migrations
-npx prisma migrate dev
-
-# Run the development server
-npm run dev
-```
-
-The API will be available at `http://localhost:5000/api`.
-
----
-
-## 📁 Project Structure (Overview)
-
-```
-BashaRent-Backend/
-├── src/
-│   ├── modules/         # Feature modules (auth, properties, rentals, payments, etc.)
-│   ├── middlewares/     # Auth guards, error handlers, validators
-│   ├── config/          # Environment & app configuration
-│   ├── utils/           # Helper utilities
-│   └── app.ts           # Express app entry point
-├── prisma/
-│   └── schema.prisma    # Database schema
-└── server.ts             # Server bootstrap
-```
-
----
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome. Feel free to check the [issues page](https://github.com/your-username/BashaRent-Backend/issues).
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License.
